@@ -5,6 +5,7 @@ enum UITag
 {
     BTN_PREVIEW = 393,
     CHECK_BOX = 394,
+    SPRITE = 398,
     INPUT = 399,
     BUTTON_IMPORT = 400,
     LAYOUT = 100,
@@ -54,7 +55,9 @@ bool MainScene::init(CCScene* pScene)
 
         setTouchEnabled(true);
 
-        part = new Part();
+        CCSprite *preview = (CCSprite*)m_rootNode->getChildByTag(SPRITE);
+
+        part = new Part(preview);
         
         return true;
     }
@@ -82,6 +85,11 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
         case BUTTON_IMPORT:
         {
             import();
+        }
+            break;
+        case BTN_PREVIEW:
+        {
+            part->preview();
         }
             break;
         default:

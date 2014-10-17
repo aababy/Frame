@@ -23,6 +23,7 @@
 
 using namespace cocostudio::timeline;
 
+#define xScheduler                      CCDirector::sharedDirector()->getScheduler()
 #define xSpriteFC                       CCSpriteFrameCache::sharedSpriteFrameCache()
 #define xNotify                         (CCNotificationCenter::sharedNotificationCenter())
 #define xData                           (CCUserDefault::sharedUserDefault())

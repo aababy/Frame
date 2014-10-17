@@ -9,9 +9,9 @@
 #include "Part.h"
 
 
-Part::Part()
+Part::Part(CCSprite * preview)
 {
-
+    m_preview = preview;
 }
 
 void Part::import(string path)
@@ -49,25 +49,77 @@ void Part::import(string path)
         frames.sFrameName = strLine;
         frames.bDeleted = false;
 
-        m_vFrameUsed.push_back(frames);
         m_vFrameOriginal.push_back(frames);
     }
 
     fin.close();
 
-    if (m_vFrameUsed.size() != 0)
+    if (m_vFrameOriginal.size() != 0)
     {
         //排序
-        bubble_sort(m_vFrameUsed);
+        bubble_sort(m_vFrameOriginal);
 
         CCFileUtils::sharedFileUtils()->addSearchPath(szAddress);
 
         //读取每一个图片
-        for(int i = 0; i < m_vFrameUsed.size(); i++)
+        for(int i = 0; i < m_vFrameOriginal.size(); i++)
         {
-            CCSprite *sprite = CCSprite::create(m_vFrameUsed.at(i).sFrameName.c_str());
-            CCSpriteFrame *frame = CCSpriteFrame::create(m_vFrameUsed.at(i).sFrameName.c_str(), CCRectMake(0, 0, sprite->getContentSize().width, sprite->getContentSize().height));
-            CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFrame(frame, m_vFrameUsed.at(i).sFrameName.c_str());
+            CCSprite *sprite = CCSprite::create(m_vFrameOriginal.at(i).sFrameName.c_str());
+            CCSpriteFrame *frame = CCSpriteFrame::create(m_vFrameOriginal.at(i).sFrameName.c_str(), CCRectMake(0, 0, sprite->getContentSize().width, sprite->getContentSize().height));
+            CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFrame(frame, m_vFrameOriginal.at(i).sFrameName.c_str());
+        }
+    }
+}
+
+
+void Part::preview()
+{
+    m_vFrameUsed.clear();
+
+    for(int i = 0; i < m_vFrameOriginal.size(); i++)
+    {
+        if(m_vFrameOriginal.at(i).bDeleted == false)
+        {
+            m_vFrameUsed.push_back(m_vFrameOriginal.at(i));
+        }
+    }
+
+    m_iCurFrameIndex = 0;
+    CCSpriteFrame* frame = xSpriteFC->spriteFrameByName(m_vFrameUsed.at(m_iCurFrameIndex).sFrameName.c_str());
+    m_preview->setDisplayFrame(frame);
+    m_preview->setVisible(true);
+
+    xScheduler->unscheduleUpdateForTarget(this);
+    xScheduler->scheduleUpdateForTarget(this, 0, false);
+    m_bRunning = true;
+}
+
+
+void Part::update(float delta)
+{
+    if (m_bRunning) {
+        //累积时间
+        m_fAccumulate += delta;
+
+        //如果累积时间大于帧间隔, 清空, 然后播放下一帧
+        if (m_fAccumulate > 0.05f) {
+            m_fAccumulate = 0.f;
+            m_iCurFrameIndex++;
+
+            if (m_iCurFrameIndex < m_vFrameUsed.size()) {
+                CCSpriteFrame* frame = xSpriteFC->spriteFrameByName(m_vFrameUsed.at(m_iCurFrameIndex).sFrameName.c_str());
+                m_preview->setDisplayFrame(frame);
+            }
+            else
+            {
+                //所有帧数都播放完.
+                m_bRunning = false;
+                m_fAccumulate = 0;
+                //如果是特效, 设置不可见
+                m_preview->setVisible(false);
+
+                xScheduler->unscheduleUpdateForTarget(this);
+            }
         }
     }
 }
