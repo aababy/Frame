@@ -89,7 +89,7 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             break;
         case BTN_PREVIEW:
         {
-            part->preview();
+            part->preview(_list);
         }
             break;
         default:

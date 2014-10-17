@@ -15,7 +15,7 @@ class Part : public CCObject
 {
 public:
     Part(CCSprite * preview);
-    void preview();
+    void preview(UIListView *_list);
 
     void import(string path);
     vector<FramesName> m_vFrameOriginal;

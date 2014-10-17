@@ -8,6 +8,7 @@
 #include "IncludeForCpp.h"
 #include "Part.h"
 
+#define CHECK_BOX   394
 
 Part::Part(CCSprite * preview)
 {
@@ -72,13 +73,16 @@ void Part::import(string path)
 }
 
 
-void Part::preview()
+void Part::preview(UIListView *_list)
 {
     m_vFrameUsed.clear();
 
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        if(m_vFrameOriginal.at(i).bDeleted == false)
+        Layout * layout = (Layout*)_list->getItem(i);
+        CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
+
+        if(check->getSelectedState())
         {
             m_vFrameUsed.push_back(m_vFrameOriginal.at(i));
         }
