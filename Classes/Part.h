@@ -14,8 +14,9 @@
 class Part : public CCObject
 {
 public:
-    Part(CCSprite * preview);
-    void preview(UIListView *_list);
+    Part(CCSprite * preview, UIListView *list);
+    void preview(UIListView *list);
+    void deleteFrames();
 
     void import(string path);
     vector<FramesName> m_vFrameOriginal;
@@ -34,6 +35,9 @@ private:
     int     m_iCurFrameIndex;
 
     void update(float delta);
+
+    string  _path;
+    UIListView *_list;
 
 
 };

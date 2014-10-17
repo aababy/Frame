@@ -235,3 +235,31 @@ bool isEqualFloat(float f1, float f2)
     }
 }
 
+
+void makeDir(string &path)
+{
+    char command[200];
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    sprintf(command, "md %s", path.c_str());
+#else
+    sprintf(command, "mkdir %s", path.c_str());
+#endif
+
+    //使用shell/dos命令来操作
+    system(command);
+}
+
+void deleteFile(string &path)
+{
+    char command[200];
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    sprintf(command, "del %s", path.c_str());
+#else
+    sprintf(command, "rm %s", path.c_str());
+#endif
+
+    //使用shell/dos命令来操作
+    system(command);
+}

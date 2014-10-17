@@ -9,6 +9,7 @@ enum UITag
     INPUT = 399,
     BUTTON_IMPORT = 400,
     LAYOUT = 100,
+    BTN_DELETE = 401,
 };
 
 
@@ -46,6 +47,8 @@ bool MainScene::init(CCScene* pScene)
 
         initButton(BTN_PREVIEW, root, this, toucheventselector(MainScene::touchEvent));
         initButton(BUTTON_IMPORT, root, this, toucheventselector(MainScene::touchEvent));
+        initButton(BTN_DELETE, root, this, toucheventselector(MainScene::touchEvent));
+
         input = InputBox::create(INPUT, root, this, m_rootNode);
 
         _list = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
@@ -57,7 +60,7 @@ bool MainScene::init(CCScene* pScene)
 
         CCSprite *preview = (CCSprite*)m_rootNode->getChildByTag(SPRITE);
 
-        part = new Part(preview);
+        part = new Part(preview, _list);
         
         return true;
     }
@@ -92,6 +95,29 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             part->preview(_list);
         }
             break;
+        case BTN_DELETE:
+        {
+            part->deleteFrames();
+        }
+            break;
+        case LAYOUT:
+        {
+            CCArray *array = _list->getItems();
+
+            CCObject *object = NULL;
+            CCARRAY_FOREACH(array, object)
+                {
+                    Layout * layout = (Layout*)object;
+
+                    if (layout == pSender)
+                    {
+                        UICheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
+
+                        bool bCheck = !(check->getSelectedState());
+                        check->setSelectedState(bCheck);
+                    }
+                }
+        }
         default:
         {
         }

@@ -10,13 +10,16 @@
 
 #define CHECK_BOX   394
 
-Part::Part(CCSprite * preview)
+Part::Part(CCSprite * preview, UIListView *list)
 {
     m_preview = preview;
+    _list = list;
 }
 
 void Part::import(string path)
 {
+    _path = path;
+
     if(path.empty()) return;
 
     m_vFileName.clear();
@@ -73,13 +76,14 @@ void Part::import(string path)
 }
 
 
-void Part::preview(UIListView *_list)
+void Part::preview(UIListView *list)
 {
+    _list = list;
     m_vFrameUsed.clear();
 
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        Layout * layout = (Layout*)_list->getItem(i);
+        Layout * layout = (Layout*) list->getItem(i);
         CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
 
         if(check->getSelectedState())
@@ -127,3 +131,23 @@ void Part::update(float delta)
         }
     }
 }
+
+
+void Part::deleteFrames()
+{
+    for(int i = 0; i < m_vFrameOriginal.size(); i++)
+    {
+        Layout * layout = (Layout*) _list->getItem(i);
+        CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
+
+        if(check->getSelectedState() == false)
+        {
+            string path = _path;
+            path.append("/");
+            path.append(m_vFrameOriginal.at(i).sFrameName);
+            deleteFile(path);
+        }
+    }
+}
+
+
