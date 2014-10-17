@@ -16,6 +16,7 @@
 #include "cocos2d.h"
 #include "cocos-ext.h"
 
+class Part;
 
 using std::string;
 using std::vector;

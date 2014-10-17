@@ -19,9 +19,11 @@
 #include "Helper.h"
 #include "InputBox.h"
 #include "XmlData.h"
+#include "Part.h"
 
 using namespace cocostudio::timeline;
 
+#define xSpriteFC                       CCSpriteFrameCache::sharedSpriteFrameCache()
 #define xNotify                         (CCNotificationCenter::sharedNotificationCenter())
 #define xData                           (CCUserDefault::sharedUserDefault())
 

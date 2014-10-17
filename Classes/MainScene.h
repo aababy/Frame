@@ -45,6 +45,13 @@ protected:
 
     Layout*     m_root;
     CCNode*     m_rootNode;
+    UIListView* _list;
+    UICheckBox * check;
+    InputBox*   input;
+
+    Part *      part;
+
+    void import();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

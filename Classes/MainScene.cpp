@@ -3,10 +3,15 @@
 
 enum UITag
 {
-    FRAME_BG = 6,
-    BUTTON_IMPORT = 8,
+    BTN_PREVIEW = 393,
+    CHECK_BOX = 394,
+    INPUT = 399,
+    BUTTON_IMPORT = 400,
+    LAYOUT = 100,
 };
 
+
+#define SIDE_LEN            (200)
 
 //1920x1080
 //1920x864
@@ -37,8 +42,19 @@ bool MainScene::init(CCScene* pScene)
         
         Layout *root = static_cast<Layout*>(m_rootNode->getChildren()->objectAtIndex(0));
         m_root = root;
-        
+
+        initButton(BTN_PREVIEW, root, this, toucheventselector(MainScene::touchEvent));
+        initButton(BUTTON_IMPORT, root, this, toucheventselector(MainScene::touchEvent));
+        input = InputBox::create(INPUT, root, this, m_rootNode);
+
+        _list = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
+
+        check = (UICheckBox*)UIHelper::seekWidgetByTag(root, CHECK_BOX);
+        check->setVisible(false);
+
         setTouchEnabled(true);
+
+        part = new Part();
         
         return true;
     }
@@ -65,6 +81,7 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
     switch (iTag) {
         case BUTTON_IMPORT:
         {
+            import();
         }
             break;
         default:
@@ -91,4 +108,41 @@ void MainScene::editBoxReturn(CCEditBox* editBox)
 }
 
 
+void MainScene::import()
+{
+    if(strcmp(input->getText(), "") == 0)
+    {
+        return;
+    }
 
+    part->import(input->getText());
+
+    vector<FramesName> &vFrameName = part->m_vFrameOriginal;
+
+    for(int i = 0; i < vFrameName.size(); i++)
+    {
+        Layout * layout = Layout::create();
+        layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+        layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
+        layout->setBackGroundColor(ccBLACK);
+        layout->setSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+        layout->setTouchEnabled(true);
+        layout->setTag(LAYOUT);
+        layout->addTouchEventListener(this, toucheventselector(MainScene::touchEvent));
+
+        UIImageView * image = UIImageView::create();
+        image->loadTexture(vFrameName.at(i).sFrameName.c_str(), UI_TEX_TYPE_PLIST);
+        image->setPosition(ccp(SIDE_LEN/2, SIDE_LEN/2));
+        image->setScale(0.5);
+
+        UICheckBox * checkOne = (UICheckBox*)check->clone();
+        checkOne->setVisible(true);
+        checkOne->setScale(0.5);
+        checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
+        checkOne->setSelectedState(!part->m_vFrameOriginal.at(i).bDeleted);
+
+        layout->addChild(image);
+        layout->addChild(checkOne);
+        _list->pushBackCustomItem(layout);
+    }
+}
