@@ -171,7 +171,6 @@
 		1AFAF8C416D3884900DB1158 /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C116D3884900DB1158 /* CloseSelected.png */; };
 		1AFAF8C516D3884900DB1158 /* HelloWorld.png in Resources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C216D3884900DB1158 /* HelloWorld.png */; };
 		1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */; };
-		1AFAF8CB16D3886000DB1158 /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */; };
 		2964940C19518DD100BE20D8 /* CCActionTimeline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2964940119518DD100BE20D8 /* CCActionTimeline.cpp */; };
 		2964940D19518DD100BE20D8 /* CCActionTimelineCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2964940319518DD100BE20D8 /* CCActionTimelineCache.cpp */; };
 		2964940E19518DD100BE20D8 /* CCFrame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 2964940519518DD100BE20D8 /* CCFrame.cpp */; };
@@ -256,6 +255,12 @@
 		43B91F091949BB0500F7F815 /* CocoLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 43B91F071949BB0500F7F815 /* CocoLoader.cpp */; };
 		8C583FAD169DB6D500F63A10 /* CCEditBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8C583FA8169DB6D500F63A10 /* CCEditBox.cpp */; };
 		8C583FAE169DB6D500F63A10 /* CCEditBoxImplMac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8C583FAC169DB6D500F63A10 /* CCEditBoxImplMac.mm */; };
+		CAACFAC119F102FB00C2FCE4 /* Helper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAACFAB719F102FB00C2FCE4 /* Helper.cpp */; };
+		CAACFAC219F102FB00C2FCE4 /* InputBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAACFABB19F102FB00C2FCE4 /* InputBox.cpp */; };
+		CAACFAC319F102FB00C2FCE4 /* MainScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAACFABD19F102FB00C2FCE4 /* MainScene.cpp */; };
+		CAACFAC419F102FB00C2FCE4 /* XmlData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAACFABF19F102FB00C2FCE4 /* XmlData.cpp */; };
+		CAACFAC619F106D000C2FCE4 /* R in Resources */ = {isa = PBXBuildFile; fileRef = CAACFAC519F106D000C2FCE4 /* R */; };
+		CAACFAC919F1081600C2FCE4 /* Part.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAACFAC719F1081600C2FCE4 /* Part.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -596,8 +601,6 @@
 		1AFAF8C216D3884900DB1158 /* HelloWorld.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = HelloWorld.png; sourceTree = "<group>"; };
 		1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppDelegate.cpp; path = ../Classes/AppDelegate.cpp; sourceTree = "<group>"; };
 		1AFAF8C716D3886000DB1158 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ../Classes/AppDelegate.h; sourceTree = "<group>"; };
-		1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HelloWorldScene.cpp; path = ../Classes/HelloWorldScene.cpp; sourceTree = "<group>"; };
-		1AFAF8C916D3886000DB1158 /* HelloWorldScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HelloWorldScene.h; path = ../Classes/HelloWorldScene.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Frame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Frame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2964940119518DD100BE20D8 /* CCActionTimeline.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CCActionTimeline.cpp; sourceTree = "<group>"; };
 		2964940219518DD100BE20D8 /* CCActionTimeline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCActionTimeline.h; sourceTree = "<group>"; };
@@ -785,6 +788,19 @@
 		8C583FAA169DB6D500F63A10 /* CCEditBoxImpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEditBoxImpl.h; path = CCEditBox/CCEditBoxImpl.h; sourceTree = "<group>"; };
 		8C583FAB169DB6D500F63A10 /* CCEditBoxImplMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CCEditBoxImplMac.h; path = CCEditBox/CCEditBoxImplMac.h; sourceTree = "<group>"; };
 		8C583FAC169DB6D500F63A10 /* CCEditBoxImplMac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = CCEditBoxImplMac.mm; path = CCEditBox/CCEditBoxImplMac.mm; sourceTree = "<group>"; };
+		CAACFAB719F102FB00C2FCE4 /* Helper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Helper.cpp; path = ../Classes/Helper.cpp; sourceTree = "<group>"; };
+		CAACFAB819F102FB00C2FCE4 /* Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Helper.h; path = ../Classes/Helper.h; sourceTree = "<group>"; };
+		CAACFAB919F102FB00C2FCE4 /* IncludeForCpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IncludeForCpp.h; path = ../Classes/IncludeForCpp.h; sourceTree = "<group>"; };
+		CAACFABA19F102FB00C2FCE4 /* IncludeForHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IncludeForHeader.h; path = ../Classes/IncludeForHeader.h; sourceTree = "<group>"; };
+		CAACFABB19F102FB00C2FCE4 /* InputBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InputBox.cpp; path = ../Classes/InputBox.cpp; sourceTree = "<group>"; };
+		CAACFABC19F102FB00C2FCE4 /* InputBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InputBox.h; path = ../Classes/InputBox.h; sourceTree = "<group>"; };
+		CAACFABD19F102FB00C2FCE4 /* MainScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MainScene.cpp; path = ../Classes/MainScene.cpp; sourceTree = "<group>"; };
+		CAACFABE19F102FB00C2FCE4 /* MainScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainScene.h; path = ../Classes/MainScene.h; sourceTree = "<group>"; };
+		CAACFABF19F102FB00C2FCE4 /* XmlData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = XmlData.cpp; path = ../Classes/XmlData.cpp; sourceTree = "<group>"; };
+		CAACFAC019F102FB00C2FCE4 /* XmlData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XmlData.h; path = ../Classes/XmlData.h; sourceTree = "<group>"; };
+		CAACFAC519F106D000C2FCE4 /* R */ = {isa = PBXFileReference; lastKnownFileType = folder; path = R; sourceTree = "<group>"; };
+		CAACFAC719F1081600C2FCE4 /* Part.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Part.cpp; sourceTree = "<group>"; };
+		CAACFAC819F1081600C2FCE4 /* Part.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Part.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -813,10 +829,20 @@
 		15AA9C4015B7EC450033D6C2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CAACFAB719F102FB00C2FCE4 /* Helper.cpp */,
+				CAACFAB819F102FB00C2FCE4 /* Helper.h */,
+				CAACFAB919F102FB00C2FCE4 /* IncludeForCpp.h */,
+				CAACFABA19F102FB00C2FCE4 /* IncludeForHeader.h */,
+				CAACFABB19F102FB00C2FCE4 /* InputBox.cpp */,
+				CAACFABC19F102FB00C2FCE4 /* InputBox.h */,
+				CAACFABD19F102FB00C2FCE4 /* MainScene.cpp */,
+				CAACFABE19F102FB00C2FCE4 /* MainScene.h */,
+				CAACFABF19F102FB00C2FCE4 /* XmlData.cpp */,
+				CAACFAC019F102FB00C2FCE4 /* XmlData.h */,
 				1AFAF8C616D3886000DB1158 /* AppDelegate.cpp */,
 				1AFAF8C716D3886000DB1158 /* AppDelegate.h */,
-				1AFAF8C816D3886000DB1158 /* HelloWorldScene.cpp */,
-				1AFAF8C916D3886000DB1158 /* HelloWorldScene.h */,
+				CAACFAC719F1081600C2FCE4 /* Part.cpp */,
+				CAACFAC819F1081600C2FCE4 /* Part.h */,
 			);
 			name = Classes;
 			path = ../classes;
@@ -1889,6 +1915,7 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CAACFAC519F106D000C2FCE4 /* R */,
 				1AFAF8C016D3884900DB1158 /* CloseNormal.png */,
 				1AFAF8C116D3884900DB1158 /* CloseSelected.png */,
 				1AFAF8C216D3884900DB1158 /* HelloWorld.png */,
@@ -1980,6 +2007,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				41BC70E515BF81A5006A0A6C /* InfoPlist.strings in Resources */,
+				CAACFAC619F106D000C2FCE4 /* R in Resources */,
 				41BC70E615BF81A5006A0A6C /* MainMenu.xib in Resources */,
 				41BC70E715BF81A5006A0A6C /* Icon.icns in Resources */,
 				15C157DA168315B300D239F2 /* CMakeLists.txt in Resources */,
@@ -2081,9 +2109,11 @@
 				15C157E1168315B300D239F2 /* cpPivotJoint.c in Sources */,
 				15C157E2168315B300D239F2 /* cpRatchetJoint.c in Sources */,
 				15C157E3168315B300D239F2 /* cpRotaryLimitJoint.c in Sources */,
+				CAACFAC119F102FB00C2FCE4 /* Helper.cpp in Sources */,
 				37C62CDA18E157C300D16FC4 /* CCDecorativeDisplay.cpp in Sources */,
 				15C157E4168315B300D239F2 /* cpSimpleMotor.c in Sources */,
 				15C157E5168315B300D239F2 /* cpSlideJoint.c in Sources */,
+				CAACFAC319F102FB00C2FCE4 /* MainScene.cpp in Sources */,
 				15C157E6168315B300D239F2 /* cpArbiter.c in Sources */,
 				15C157E7168315B300D239F2 /* cpArray.c in Sources */,
 				15C157E8168315B300D239F2 /* cpBB.c in Sources */,
@@ -2103,6 +2133,7 @@
 				37C62CF118E157C300D16FC4 /* UITouchGroup.cpp in Sources */,
 				15C157F1168315B300D239F2 /* cpSpaceHash.c in Sources */,
 				15C157F2168315B300D239F2 /* cpSpaceQuery.c in Sources */,
+				CAACFAC219F102FB00C2FCE4 /* InputBox.cpp in Sources */,
 				37C62CE518E157C300D16FC4 /* CCUtilMath.cpp in Sources */,
 				15C157F3168315B300D239F2 /* cpSpaceStep.c in Sources */,
 				15C157F4168315B300D239F2 /* cpSpatialIndex.c in Sources */,
@@ -2137,12 +2168,14 @@
 				37C62CD818E157C300D16FC4 /* CCDatas.cpp in Sources */,
 				15C1592B168315E500D239F2 /* CCNode+CCBRelativePositioning.cpp in Sources */,
 				37C62D0718E157C300D16FC4 /* LabelReader.cpp in Sources */,
+				CAACFAC919F1081600C2FCE4 /* Part.cpp in Sources */,
 				15C1592C168315E500D239F2 /* CCNodeLoader.cpp in Sources */,
 				15C1592D168315E500D239F2 /* CCNodeLoaderLibrary.cpp in Sources */,
 				37C62CD718E157C300D16FC4 /* CCBone.cpp in Sources */,
 				37C62D1318E157C300D16FC4 /* TriggerObj.cpp in Sources */,
 				15C1592E168315E500D239F2 /* CCParticleSystemQuadLoader.cpp in Sources */,
 				15C1592F168315E500D239F2 /* CCScale9SpriteLoader.cpp in Sources */,
+				CAACFAC419F102FB00C2FCE4 /* XmlData.cpp in Sources */,
 				37C62D0018E157C300D16FC4 /* GUIReader.cpp in Sources */,
 				37C62D0C18E157C300D16FC4 /* ScrollViewReader.cpp in Sources */,
 				15C15930168315E500D239F2 /* CCScrollViewLoader.cpp in Sources */,
@@ -2190,7 +2223,6 @@
 				37C62CF018E157C300D16FC4 /* UIHelper.cpp in Sources */,
 				8C583FAE169DB6D500F63A10 /* CCEditBoxImplMac.mm in Sources */,
 				1AFAF8CA16D3886000DB1158 /* AppDelegate.cpp in Sources */,
-				1AFAF8CB16D3886000DB1158 /* HelloWorldScene.cpp in Sources */,
 				1A40E75B1727BFC6006D4861 /* Animation.cpp in Sources */,
 				1A40E75C1727BFC6006D4861 /* AnimationState.cpp in Sources */,
 				1A40E75D1727BFC6006D4861 /* AnimationStateData.cpp in Sources */,
