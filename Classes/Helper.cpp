@@ -263,3 +263,25 @@ void deleteFile(string &path)
     //使用shell/dos命令来操作
     system(command);
 }
+
+
+void renameFile(string &path, string &old, string &newname)
+{
+    char command[400];
+
+    string oldpath = path;
+    oldpath.append("/");
+    oldpath.append(old);
+
+    string newpath = path;
+    newpath.append(newname);
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    sprintf(command, "ren %s %s", oldpath.c_str(), newname.c_str());
+#else
+    sprintf(command, "mv %s %s", oldpath.c_str(), newpath.c_str());
+#endif
+
+    //使用shell/dos命令来操作
+    system(command);
+}

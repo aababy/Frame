@@ -68,8 +68,8 @@ void Part::import(string path)
         //读取每一个图片
         for(int i = 0; i < m_vFrameOriginal.size(); i++)
         {
-            CCSprite *sprite = CCSprite::create(m_vFrameOriginal.at(i).sFrameName.c_str());
-            CCSpriteFrame *frame = CCSpriteFrame::create(m_vFrameOriginal.at(i).sFrameName.c_str(), CCRectMake(0, 0, sprite->getContentSize().width, sprite->getContentSize().height));
+            CCTexture2D *pTexture = CCTextureCache::sharedTextureCache()->addImage(m_vFrameOriginal.at(i).sFrameName.c_str());
+            CCSpriteFrame *frame = CCSpriteFrame::createWithTexture(pTexture, CCRectMake(0, 0, pTexture->getContentSize().width, pTexture->getContentSize().height));
             CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFrame(frame, m_vFrameOriginal.at(i).sFrameName.c_str());
         }
     }
@@ -148,6 +148,9 @@ void Part::deleteFrames()
             deleteFile(path);
         }
     }
+
+
+    //重命名所有图片.
 }
 
 
