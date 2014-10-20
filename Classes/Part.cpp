@@ -97,9 +97,9 @@ void Part::preview(UIListView *list)
     m_preview->setDisplayFrame(frame);
     m_preview->setVisible(true);
 
+    m_bRunning = true;
     xScheduler->unscheduleUpdateForTarget(this);
     xScheduler->scheduleUpdateForTarget(this, 0, false);
-    m_bRunning = true;
 }
 
 
