@@ -15,7 +15,7 @@ class Part : public CCObject
 {
 public:
     Part(CCSprite * preview, UIListView *list);
-    void preview(UIListView *list);
+    void preview(float delay);
     void deleteFrames();
 
     void import(string path);
@@ -39,7 +39,7 @@ private:
     string  _path;
     UIListView *_list;
 
-
+    float   _fDelay;
 };
 
 #endif /* defined(__Frame__Part__) */

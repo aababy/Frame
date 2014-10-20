@@ -14,6 +14,7 @@ Part::Part(CCSprite * preview, UIListView *list)
 {
     m_preview = preview;
     _list = list;
+    _fDelay = 0.05f;
 }
 
 void Part::import(string path)
@@ -76,14 +77,14 @@ void Part::import(string path)
 }
 
 
-void Part::preview(UIListView *list)
+void Part::preview(float delay)
 {
-    _list = list;
+    _fDelay = delay;
     m_vFrameUsed.clear();
 
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        Layout * layout = (Layout*) list->getItem(i);
+        Layout * layout = (Layout*) _list->getItem(i);
         CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
 
         if(check->getSelectedState())
@@ -110,7 +111,7 @@ void Part::update(float delta)
         m_fAccumulate += delta;
 
         //如果累积时间大于帧间隔, 清空, 然后播放下一帧
-        if (m_fAccumulate > 0.05f) {
+        if (m_fAccumulate >= _fDelay) {
             m_fAccumulate = 0.f;
             m_iCurFrameIndex++;
 

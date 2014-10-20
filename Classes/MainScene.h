@@ -48,6 +48,7 @@ protected:
     UIListView* _list;
     UICheckBox * check;
     InputBox*   input;
+    InputBox*_inputDelay;
 
     Part *      part;
 

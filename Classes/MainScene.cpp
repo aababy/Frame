@@ -10,6 +10,7 @@ enum UITag
     BUTTON_IMPORT = 400,
     LAYOUT = 100,
     BTN_DELETE = 401,
+    INPUT_DELAY = 403,
 };
 
 
@@ -50,6 +51,8 @@ bool MainScene::init(CCScene* pScene)
         initButton(BTN_DELETE, root, this, toucheventselector(MainScene::touchEvent));
 
         input = InputBox::create(UI_INPUT, root, this, m_rootNode);
+        _inputDelay = InputBox::create(INPUT_DELAY, root, this, m_rootNode);
+        _inputDelay->setText("0.05");
 
         _list = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
 
@@ -92,7 +95,7 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             break;
         case BTN_PREVIEW:
         {
-            part->preview(_list);
+            part->preview(atof(_inputDelay->getText()));
         }
             break;
         case BTN_DELETE:
