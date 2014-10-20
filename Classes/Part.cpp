@@ -149,26 +149,35 @@ void Part::deleteFrames()
 			path.append(SEPARATOR);
             path.append(m_vFrameOriginal.at(i).sFrameName);
             deleteFile(path);
+            m_vFrameOriginal.at(i).bDeleted = true;
         }
     }
 
+    m_vFrameUsed.clear();
+    for(int i = 0; i < m_vFrameOriginal.size(); i++)
+    {
+        if(m_vFrameOriginal.at(i).bDeleted == false)
+        {
+            m_vFrameUsed.push_back(m_vFrameOriginal.at(i));
+        }
+    }
 
     //重命名所有图片.
     //解析文件名
-    string sframes = m_vFrameOriginal.at(0).sFrameName;
+    string sframes = m_vFrameUsed.at(0).sFrameName;
 
     int iDot = sframes.find('.');
     int iNumber = sframes.find_last_not_of("0123456789", iDot - 1);
     string sBefore = sframes.substr(0, iNumber + 1);
 
     char format[50];
-    for(int i = 0; i < m_vFrameOriginal.size(); i++)
+    for(int i = 1; i < m_vFrameUsed.size(); i++)
     {
         sprintf(format, "%s%03d.png", sBefore.c_str(), i);
 
-        if(m_vFrameOriginal.at(i).sFrameName.compare(format) != 0)
+        if(m_vFrameUsed.at(i).sFrameName.compare(format) != 0)
         {
-            renameFile(_path, m_vFrameOriginal.at(i).sFrameName, format);
+            renameFile(_path, m_vFrameUsed.at(i).sFrameName, format);
         }
     }
 }
