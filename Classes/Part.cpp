@@ -171,9 +171,9 @@ void Part::deleteFrames()
     string sBefore = sframes.substr(0, iNumber + 1);
 
     char format[50];
-    for(int i = 1; i < m_vFrameUsed.size(); i++)
+    for(int i = 0; i < m_vFrameUsed.size(); i++)
     {
-        sprintf(format, "%s%03d.png", sBefore.c_str(), i);
+        sprintf(format, "%s%03d.png", sBefore.c_str(), i + 1);
 
         if(m_vFrameUsed.at(i).sFrameName.compare(format) != 0)
         {
