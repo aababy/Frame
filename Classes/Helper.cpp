@@ -265,7 +265,7 @@ void deleteFile(string &path)
 }
 
 
-void renameFile(string &path, string &old, string &newname)
+void renameFile(string &path, string &old, string newname)
 {
     char command[400];
 
@@ -274,6 +274,7 @@ void renameFile(string &path, string &old, string &newname)
     oldpath.append(old);
 
     string newpath = path;
+    newpath.append("/");
     newpath.append(newname);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)

@@ -37,7 +37,7 @@ void string2Flags(CCString *sFlags, bool *flags);
 bool isEqualFloat(float f1, float f2);
 void makeDir(string path);
 void deleteFile(string &path);
-void renameFile(string &path, string &old, string &newname);
+void renameFile(string &path, string &old, string newname);
 
 template <class T> string any2string(T tmp)
 {

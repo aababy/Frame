@@ -151,6 +151,23 @@ void Part::deleteFrames()
 
 
     //重命名所有图片.
+    //解析文件名
+    string sframes = m_vFrameOriginal.at(0).sFrameName;
+
+    int iDot = sframes.find('.');
+    int iNumber = sframes.find_last_not_of("0123456789", iDot - 1);
+    string sBefore = sframes.substr(0, iNumber + 1);
+
+    char format[50];
+    for(int i = 0; i < m_vFrameOriginal.size(); i++)
+    {
+        sprintf(format, "%s%03d.png", sBefore.c_str(), i);
+
+        if(m_vFrameOriginal.at(i).sFrameName.compare(format) != 0)
+        {
+            renameFile(_path, m_vFrameOriginal.at(i).sFrameName, format);
+        }
+    }
 }
 
 
