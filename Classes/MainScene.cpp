@@ -6,7 +6,7 @@ enum UITag
     BTN_PREVIEW = 393,
     CHECK_BOX = 394,
     SPRITE = 398,
-    INPUT = 399,
+    UI_INPUT = 399,
     BUTTON_IMPORT = 400,
     LAYOUT = 100,
     BTN_DELETE = 401,
@@ -49,7 +49,7 @@ bool MainScene::init(CCScene* pScene)
         initButton(BUTTON_IMPORT, root, this, toucheventselector(MainScene::touchEvent));
         initButton(BTN_DELETE, root, this, toucheventselector(MainScene::touchEvent));
 
-        input = InputBox::create(INPUT, root, this, m_rootNode);
+        input = InputBox::create(UI_INPUT, root, this, m_rootNode);
 
         _list = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
 
