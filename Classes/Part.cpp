@@ -94,6 +94,7 @@ void Part::preview(float delay)
     }
 
     m_iCurFrameIndex = 0;
+	m_fAccumulate = 0;
     CCSpriteFrame* frame = xSpriteFC->spriteFrameByName(m_vFrameUsed.at(m_iCurFrameIndex).sFrameName.c_str());
     m_preview->setDisplayFrame(frame);
     m_preview->setVisible(true);
@@ -144,7 +145,11 @@ void Part::deleteFrames()
         if(check->getSelectedState() == false)
         {
             string path = _path;
-            path.append("/");
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+			path.append("\\");
+#else
+			path.append("/");
+#endif
             path.append(m_vFrameOriginal.at(i).sFrameName);
             deleteFile(path);
         }
