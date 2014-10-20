@@ -29,6 +29,12 @@ using namespace ui;
 
 #define FLAG_COUNT              (6)
 
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+#define SEPARATOR   ("\\")
+#else
+#define SEPARATOR   ("/")
+#endif
+
 struct FramesName
 {
     string  sFrameName;

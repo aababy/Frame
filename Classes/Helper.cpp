@@ -270,11 +270,11 @@ void renameFile(string &path, string &old, string newname)
     char command[400];
 
     string oldpath = path;
-    oldpath.append("/");
+    oldpath.append(SEPARATOR);
     oldpath.append(old);
 
     string newpath = path;
-    newpath.append("/");
+    newpath.append(SEPARATOR);
     newpath.append(newname);
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)

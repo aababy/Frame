@@ -145,11 +145,8 @@ void Part::deleteFrames()
         if(check->getSelectedState() == false)
         {
             string path = _path;
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-			path.append("\\");
-#else
-			path.append("/");
-#endif
+
+			path.append(SEPARATOR);
             path.append(m_vFrameOriginal.at(i).sFrameName);
             deleteFile(path);
         }
