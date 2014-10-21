@@ -35,11 +35,12 @@ using namespace ui;
 #define SEPARATOR   ("/")
 #endif
 
-struct FramesName
+struct MyFrame
 {
     string  sFrameName;
     int     iNumber;
     bool    bDeleted;           //这一帧是否被删除.
+    float   fDelay;             //延迟
 };
 
 struct SkillName

@@ -19,8 +19,8 @@ public:
     void deleteFrames();
 
     void import(string path);
-    vector<FramesName> m_vFrameOriginal;
-    vector<FramesName> m_vFrameUsed;
+    vector<MyFrame> m_vFrameOriginal;
+    vector<MyFrame> m_vFrameUsed;
 
 private:
     CCSprite * m_preview;

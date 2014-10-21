@@ -47,12 +47,13 @@ void Part::import(string path)
     string strLine;
     while(getline(fin,strLine))
     {
-        if(strLine.compare("temp.txt") == 0) continue;
+        if(strLine.find(".txt") != string::npos) continue;
 
-        FramesName frames;
+        MyFrame frames;
         frames.iNumber = getNumber(strLine);
         frames.sFrameName = strLine;
         frames.bDeleted = false;
+        frames.fDelay = 0.05f;
 
         m_vFrameOriginal.push_back(frames);
     }
@@ -86,6 +87,9 @@ void Part::preview(float delay)
     {
         Layout * layout = (Layout*) _list->getItem(i);
         CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
+        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
+        const char * text = label->getStringValue();
+        m_vFrameOriginal.at(i).fDelay = atof(text);
 
         if(check->getSelectedState())
         {
@@ -112,7 +116,7 @@ void Part::update(float delta)
         m_fAccumulate += delta;
 
         //如果累积时间大于帧间隔, 清空, 然后播放下一帧
-        if (m_fAccumulate >= _fDelay) {
+        if (m_fAccumulate >= m_vFrameUsed.at(m_iCurFrameIndex).fDelay) {
             m_fAccumulate = 0.f;
             m_iCurFrameIndex++;
 
@@ -179,6 +183,30 @@ void Part::deleteFrames()
         {
             renameFile(_path, m_vFrameUsed.at(i).sFrameName, format);
         }
+    }
+
+    //导出txt文件, 帧动画
+    ofstream fout;
+
+    string path = _path;
+    path.append(SEPARATOR);
+    path.append("all.txt");
+
+    fout.open(path.c_str());
+
+    if (fout.is_open()) {
+        for (int i = 0; i < m_vFrameOriginal.size(); i++) {
+            fout << m_vFrameOriginal.at(i).sFrameName;
+            if(m_vFrameOriginal.at(i).bDeleted)
+            {
+                fout<< "\t" << "del" << endl;
+            }
+            else
+            {
+                fout<< "\t" << m_vFrameOriginal.at(i).fDelay << endl;
+            }
+        }
+        fout.close();
     }
 }
 

@@ -9,8 +9,12 @@ enum UITag
     UI_INPUT = 399,
     BUTTON_IMPORT = 400,
     LAYOUT = 100,
-    BTN_DELETE = 401,
+    BTN_DELETE_ALL = 401,
     INPUT_DELAY = 403,
+    LABEL_DELAY = 408,
+    BTN_ADD = 409,
+    BTN_DEL = 410,
+
 };
 
 
@@ -46,9 +50,12 @@ bool MainScene::init(CCScene* pScene)
         Layout *root = static_cast<Layout*>(m_rootNode->getChildren()->objectAtIndex(0));
         m_root = root;
 
+        Layout * delay = (Layout*)UIHelper::seekWidgetByTag(m_root, 407);
+        delay->setVisible(false);
+
         initButton(BTN_PREVIEW, root, this, toucheventselector(MainScene::touchEvent));
         initButton(BUTTON_IMPORT, root, this, toucheventselector(MainScene::touchEvent));
-        initButton(BTN_DELETE, root, this, toucheventselector(MainScene::touchEvent));
+        initButton(BTN_DELETE_ALL, root, this, toucheventselector(MainScene::touchEvent));
 
         input = InputBox::create(UI_INPUT, root, this, m_rootNode);
         _inputDelay = InputBox::create(INPUT_DELAY, root, this, m_rootNode);
@@ -98,9 +105,29 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             part->preview(atof(_inputDelay->getText()));
         }
             break;
-        case BTN_DELETE:
+        case BTN_DELETE_ALL:
         {
             part->deleteFrames();
+        }
+            break;
+        case BTN_ADD:
+        {
+            UIButton* btn = (UIButton*)widget;
+            UILabel *label = (UILabel *)btn->getUserData();
+            const char * text = label->getStringValue();
+            float delay = atof(text);
+            delay += 0.01f;
+            label->setText(any2string(delay));
+        }
+            break;
+        case BTN_DEL:
+        {
+            UIButton* btn = (UIButton*)widget;
+            UILabel *label = (UILabel *)btn->getUserData();
+            const char * text = label->getStringValue();
+            float delay = atof(text);
+            delay -= 0.01f;
+            label->setText(any2string(delay));
         }
             break;
         case LAYOUT:
@@ -138,6 +165,13 @@ void MainScene::editBoxEditingDidEnd(CCEditBox* editBox)
 
 void MainScene::editBoxTextChanged(CCEditBox* editBox, const std::string& text)
 {
+    //改变所以帧的值
+    for(int i = 0; i < part->m_vFrameOriginal.size(); i++)
+    {
+        Layout * layout = (Layout*) _list->getItem(i);
+        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
+        label->setText(text);
+    }
 }
 
 void MainScene::editBoxReturn(CCEditBox* editBox)
@@ -154,7 +188,9 @@ void MainScene::import()
 
     part->import(input->getText());
 
-    vector<FramesName> &vFrameName = part->m_vFrameOriginal;
+    vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
+    Layout * delay = (Layout*)UIHelper::seekWidgetByTag(m_root, 407);
+    delay->setVisible(true);
 
     for(int i = 0; i < vFrameName.size(); i++)
     {
@@ -178,8 +214,23 @@ void MainScene::import()
         checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
         checkOne->setSelectedState(!part->m_vFrameOriginal.at(i).bDeleted);
 
+        Layout * layout_delay = (Layout*)delay->clone();
+        layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, -1 * layout_delay->getContentSize().height));
+
+        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
+        label->setText(any2string(part->m_vFrameOriginal.at(i).fDelay));
+
+        UIButton * btnAdd = initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
+        btnAdd->setUserData(label);
+
+        UIButton * btnDel = initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
+        btnDel->setUserData(label);
+
+        layout->addChild(layout_delay, 10);
         layout->addChild(image);
         layout->addChild(checkOne);
         _list->pushBackCustomItem(layout);
     }
+
+    delay->setVisible(false);
 }

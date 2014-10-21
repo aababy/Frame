@@ -75,7 +75,7 @@ int getNumber(string &str)
     return atoi(sNumber.c_str());
 }
 
-void bubble_sort(vector<FramesName> &vFrameName)
+void bubble_sort(vector<MyFrame> &vFrameName)
 {
     int size = vFrameName.size();
     int i, j;
