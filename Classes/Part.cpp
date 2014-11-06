@@ -209,7 +209,7 @@ void Part::deleteFrames()
         fout.close();
     }
     
-    texturePacker();
+    //texturePacker();
 }
 
 void Part::texturePacker()
