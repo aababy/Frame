@@ -208,6 +208,23 @@ void Part::deleteFrames()
         }
         fout.close();
     }
+    
+    texturePacker();
 }
 
-
+void Part::texturePacker()
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+    int ok;
+    string command;
+    
+    ok = system("PATH=\"/bin/TexturePacker\"");
+    CCLOG("%d", ok);
+    
+    command = "TexturePacker --format cocos2d --data " + _path + "/png/abc.plist --sheet " + _path + "/png/abc.pvr.gz --opt RGBA8888 --max-width 2048 --max-height 2048 --premultiply-alpha --dither-fs-alpha " + _path;
+    //使用shell/dos命令来操作
+    ok = system(command.c_str());
+    
+    CCLOG("%d", ok);
+#endif
+}

@@ -23,6 +23,7 @@ public:
     vector<MyFrame> m_vFrameUsed;
 
 private:
+    void texturePacker();
     CCSprite * m_preview;
 
     vector<string> m_vFileName;
