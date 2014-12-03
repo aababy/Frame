@@ -24,6 +24,7 @@ public:
     
     void setBindingList(UIListView *list, UILabel *label);
     void startPreview(float delta);
+    UIListView *_list;
 
 private:
     void texturePacker();
@@ -41,7 +42,7 @@ private:
     void update(float delta);
 
     string  _path;
-    UIListView *_list;
+    
     UILabel *_label;
 
 };

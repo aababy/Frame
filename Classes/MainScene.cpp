@@ -21,7 +21,7 @@ enum UITag
 
 
 #define SIDE_LEN            (200)
-#define OFFSET_Y            (350)
+#define OFFSET_Y            (200 + 30)          //一行的高度 + 间隔
 
 //1920x1080
 //1920x864
@@ -123,13 +123,13 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             case BTN_ADD:
             {
                 _labelNumber = (UILabel*)UIHelper::seekWidgetByTag((Widget*)widget->getParent(), LABEL_DELAY);
-                schedule(schedule_selector(MainScene::add), 0.1, kCCRepeatForever, 1);
+                schedule(schedule_selector(MainScene::add), 0.17, kCCRepeatForever, 1);
             }
                 break;
             case BTN_DEL:
             {
                 _labelNumber = (UILabel*)UIHelper::seekWidgetByTag((Widget*)widget->getParent(), LABEL_DELAY);
-                schedule(schedule_selector(MainScene::del), 0.1, kCCRepeatForever, 1);
+                schedule(schedule_selector(MainScene::del), 0.17, kCCRepeatForever, 1);
             }
                 break;
             default:
@@ -220,12 +220,17 @@ void MainScene::editBoxEditingDidEnd(CCEditBox* editBox)
 void MainScene::editBoxTextChanged(CCEditBox* editBox, const std::string& text)
 {
     //改变所以帧的值
-//    for(int i = 0; i < part->m_vFrameOriginal.size(); i++)
-//    {
-//        Layout * layout = (Layout*) _list->getItem(i);
-//        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
-//        label->setText(text);
-//    }
+    if (editBox == _inputDelay->m_edit) {
+        for(int j = 0; j < _parts.size(); j++)
+        {
+            for(int i = 0; i < _parts.at(j)->m_vFrameOriginal.size(); i++)
+            {
+                Layout * layout = (Layout*) _parts.at(j)->_list->getItem(i);
+                UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
+                label->setText(text);
+            }
+        }
+    }
 }
 
 void MainScene::editBoxReturn(CCEditBox* editBox)
@@ -264,7 +269,7 @@ void MainScene::import()
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     
     UIListView * listPart = UIListView::create();
-    listPart->setSize(CCSizeMake(1920, 200));
+    listPart->setSize(CCSizeMake(1920, SIDE_LEN));
     listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
     listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
     
@@ -292,7 +297,8 @@ void MainScene::import()
 
         Layout * layout_delay = (Layout*)_delayPanel->clone();
         layout_delay->setVisible(true);
-        layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, -1 * layout_delay->getContentSize().height));
+        //layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, -1 * layout_delay->getContentSize().height));
+        layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, 0));
 
         UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
         label->setText(any2string(part->m_vFrameOriginal.at(i).fDelay));
@@ -300,9 +306,10 @@ void MainScene::import()
         initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
         initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
 
-        layout->addChild(layout_delay, 10);
+        
         layout->addChild(image);
         layout->addChild(checkOne);
+        layout->addChild(layout_delay, 10);
         listPart->pushBackCustomItem(layout);
         
         listPart->setTouchEnabled(false);
