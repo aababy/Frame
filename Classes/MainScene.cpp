@@ -60,8 +60,8 @@ bool MainScene::init(CCScene* pScene)
         input = InputBox::create(UI_INPUT, root, this, m_rootNode);
         _inputDelay = InputBox::create(INPUT_DELAY, root, this, m_rootNode);
         _inputDelay->setText("0.05");
-
-        _list = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
+        
+        _listTotal = (UIListView*)UIHelper::seekWidgetByTag(root, 392);
 
         check = (UICheckBox*)UIHelper::seekWidgetByTag(root, CHECK_BOX);
         check->setVisible(false);
@@ -191,7 +191,12 @@ void MainScene::import()
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     Layout * delay = (Layout*)UIHelper::seekWidgetByTag(m_root, 407);
     delay->setVisible(true);
-
+    
+    UIListView * listPart = UIListView::create();
+    listPart->setSize(CCSizeMake(1920, 200));
+    listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
+    listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
+    
     for(int i = 0; i < vFrameName.size(); i++)
     {
         Layout * layout = Layout::create();
@@ -229,8 +234,12 @@ void MainScene::import()
         layout->addChild(layout_delay, 10);
         layout->addChild(image);
         layout->addChild(checkOne);
-        _list->pushBackCustomItem(layout);
+        listPart->pushBackCustomItem(layout);
+        
+        listPart->setTouchEnabled(false);
     }
+    
+    _listTotal->pushBackCustomItem(listPart);
 
     delay->setVisible(false);
 }

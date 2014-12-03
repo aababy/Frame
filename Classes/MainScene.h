@@ -46,6 +46,7 @@ protected:
     Layout*     m_root;
     CCNode*     m_rootNode;
     UIListView* _list;
+    UIListView* _listTotal;
     UICheckBox * check;
     InputBox*   input;
     InputBox*_inputDelay;
