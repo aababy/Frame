@@ -14,11 +14,14 @@ enum UITag
     LABEL_DELAY = 408,
     BTN_ADD = 409,
     BTN_DEL = 410,
+    BTN_UP = 412,
+    BTN_DOWN = 413,
 
 };
 
 
 #define SIDE_LEN            (200)
+#define OFFSET_Y            (350)
 
 //1920x1080
 //1920x864
@@ -56,6 +59,8 @@ bool MainScene::init(CCScene* pScene)
         initButton(BTN_PREVIEW, root, this, toucheventselector(MainScene::touchEvent));
         initButton(BUTTON_IMPORT, root, this, toucheventselector(MainScene::touchEvent));
         initButton(BTN_DELETE_ALL, root, this, toucheventselector(MainScene::touchEvent));
+        initButton(BTN_UP, root, this, toucheventselector(MainScene::touchEvent));
+        initButton(BTN_DOWN, root, this, toucheventselector(MainScene::touchEvent));
 
         input = InputBox::create(UI_INPUT, root, this, m_rootNode);
         _inputDelay = InputBox::create(INPUT_DELAY, root, this, m_rootNode);
@@ -65,12 +70,14 @@ bool MainScene::init(CCScene* pScene)
 
         check = (UICheckBox*)UIHelper::seekWidgetByTag(root, CHECK_BOX);
         check->setVisible(false);
+        
+        _delayPanel = (Layout*)UIHelper::seekWidgetByTag(m_root, 407);
+        _delayPanel->setVisible(false);
+        _posDelayPanel = _delayPanel->getPosition();
 
         setTouchEnabled(true);
 
-        CCSprite *preview = (CCSprite*)m_rootNode->getChildByTag(SPRITE);
-
-        part = new Part(preview, _list);
+        _preview = (CCSprite*)m_rootNode->getChildByTag(SPRITE);
         
         return true;
     }
@@ -83,10 +90,25 @@ MainScene::~MainScene()
     xNotify->removeAllObservers(this);
 }
 
+void MainScene::add(float dt)
+{
+    const char * text = _labelNumber->getStringValue();
+    float delay = atof(text);
+    delay += 0.05f;
+    _labelNumber->setText(any2string(delay));
+}
+
+void MainScene::del(float dt)
+{
+    const char * text = _labelNumber->getStringValue();
+    float delay = atof(text);
+    delay -= 0.05f;
+    _labelNumber->setText(any2string(delay));
+}
 
 void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
 {
-    if(type != TOUCH_EVENT_ENDED)
+    if(type != TOUCH_EVENT_ENDED && type != TOUCH_EVENT_BEGAN)
     {
         return;
     }
@@ -94,59 +116,91 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
     Widget *widget = (Widget*)pSender;
     int iTag = widget->getTag();
     
+    
+    if (type == TOUCH_EVENT_BEGAN) {
+        
+        switch (iTag) {
+            case BTN_ADD:
+            {
+                _labelNumber = (UILabel*)UIHelper::seekWidgetByTag((Widget*)widget->getParent(), LABEL_DELAY);
+                schedule(schedule_selector(MainScene::add), 0.1, kCCRepeatForever, 1);
+            }
+                break;
+            case BTN_DEL:
+            {
+                _labelNumber = (UILabel*)UIHelper::seekWidgetByTag((Widget*)widget->getParent(), LABEL_DELAY);
+                schedule(schedule_selector(MainScene::del), 0.1, kCCRepeatForever, 1);
+            }
+                break;
+            default:
+                break;
+        }
+        
+        return;
+    }
+    
     switch (iTag) {
         case BUTTON_IMPORT:
         {
             import();
         }
             break;
+        case BTN_UP:
+        {
+            _listTotal->scrollChildren(0, -OFFSET_Y);
+        }
+            break;
+        case BTN_DOWN:
+        {
+            _listTotal->scrollChildren(0, OFFSET_Y);
+        }
+            break;
         case BTN_PREVIEW:
         {
-            part->preview(atof(_inputDelay->getText()));
+            for (int i = 0; i < _parts.size(); i++) {
+                _parts.at(i)->preview();
+            }
         }
             break;
         case BTN_DELETE_ALL:
         {
-            part->deleteFrames();
+            for (int i = 0; i < _parts.size(); i++) {
+                _parts.at(i)->deleteFrames();
+            }
         }
             break;
         case BTN_ADD:
         {
             UIButton* btn = (UIButton*)widget;
-            UILabel *label = (UILabel *)btn->getUserData();
+            UILabel * label = (UILabel*)UIHelper::seekWidgetByTag((Widget*)btn->getParent(), LABEL_DELAY);
             const char * text = label->getStringValue();
             float delay = atof(text);
             delay += 0.01f;
             label->setText(any2string(delay));
+            
+            unschedule(schedule_selector(MainScene::add));
         }
             break;
         case BTN_DEL:
         {
             UIButton* btn = (UIButton*)widget;
-            UILabel *label = (UILabel *)btn->getUserData();
+            UILabel * label = (UILabel*)UIHelper::seekWidgetByTag((Widget*)btn->getParent(), LABEL_DELAY);
             const char * text = label->getStringValue();
             float delay = atof(text);
             delay -= 0.01f;
             label->setText(any2string(delay));
+            
+            unschedule(schedule_selector(MainScene::del));
         }
             break;
         case LAYOUT:
         {
-            CCArray *array = _list->getItems();
-
-            CCObject *object = NULL;
-            CCARRAY_FOREACH(array, object)
-                {
-                    Layout * layout = (Layout*)object;
-
-                    if (layout == pSender)
-                    {
-                        UICheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
-
-                        bool bCheck = !(check->getSelectedState());
-                        check->setSelectedState(bCheck);
-                    }
-                }
+            UICheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(widget, CHECK_BOX);
+            
+            bool bCheck = !(check->getSelectedState());
+            check->setSelectedState(bCheck);
+            
+            break;
         }
         default:
         {
@@ -166,12 +220,12 @@ void MainScene::editBoxEditingDidEnd(CCEditBox* editBox)
 void MainScene::editBoxTextChanged(CCEditBox* editBox, const std::string& text)
 {
     //改变所以帧的值
-    for(int i = 0; i < part->m_vFrameOriginal.size(); i++)
-    {
-        Layout * layout = (Layout*) _list->getItem(i);
-        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
-        label->setText(text);
-    }
+//    for(int i = 0; i < part->m_vFrameOriginal.size(); i++)
+//    {
+//        Layout * layout = (Layout*) _list->getItem(i);
+//        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
+//        label->setText(text);
+//    }
 }
 
 void MainScene::editBoxReturn(CCEditBox* editBox)
@@ -185,12 +239,29 @@ void MainScene::import()
     {
         return;
     }
+    
+    //获取part
+    Part * part;
+    
+    if (_parts.size() == 0) {
+        //第一个part, 特殊处理
+        part = new Part(_preview);
+        _parts.push_back(part);
+    }
+    else
+    {
+        //创建一个Sprite
+        CCSprite* preview = CCSprite::create();
+        preview->setPosition(_preview->getPosition());
+        _preview->getParent()->addChild(preview);
+        
+        part = new Part(preview);
+        _parts.push_back(part);
+    }
 
     part->import(input->getText());
 
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
-    Layout * delay = (Layout*)UIHelper::seekWidgetByTag(m_root, 407);
-    delay->setVisible(true);
     
     UIListView * listPart = UIListView::create();
     listPart->setSize(CCSizeMake(1920, 200));
@@ -219,17 +290,15 @@ void MainScene::import()
         checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
         checkOne->setSelectedState(!part->m_vFrameOriginal.at(i).bDeleted);
 
-        Layout * layout_delay = (Layout*)delay->clone();
+        Layout * layout_delay = (Layout*)_delayPanel->clone();
+        layout_delay->setVisible(true);
         layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, -1 * layout_delay->getContentSize().height));
 
         UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
         label->setText(any2string(part->m_vFrameOriginal.at(i).fDelay));
 
-        UIButton * btnAdd = initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
-        btnAdd->setUserData(label);
-
-        UIButton * btnDel = initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
-        btnDel->setUserData(label);
+        initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
+        initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
 
         layout->addChild(layout_delay, 10);
         layout->addChild(image);
@@ -240,6 +309,21 @@ void MainScene::import()
     }
     
     _listTotal->pushBackCustomItem(listPart);
+    
+    //增加起始帧
+    Layout * layout_delay = (Layout*)_delayPanel->clone();
+    layout_delay->setVisible(true);
+    layout_delay->setPosition(ccp(_posDelayPanel.x, _posDelayPanel.y - _parts.size() * layout_delay->getContentSize().height * 1.3));
+    
+    UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
+    label->setText("0");
+    
+    initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
+    initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
 
-    delay->setVisible(false);
+    _delayPanel->getParent()->addChild(layout_delay);
+    _layouts.push_back(layout_delay);
+    
+    //设置binding的List
+    part->setBindingList(listPart, label);
 }

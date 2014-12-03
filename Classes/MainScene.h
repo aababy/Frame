@@ -34,6 +34,9 @@ public:
     
     void touchEvent(CCObject *pSender, TouchEventType type);
     
+    void add(float dt);
+    void del(float dt);
+    
     //editbox
     virtual void editBoxEditingDidBegin(CCEditBox* editBox);
     virtual void editBoxEditingDidEnd(CCEditBox* editBox);
@@ -51,9 +54,20 @@ protected:
     InputBox*   input;
     InputBox*_inputDelay;
 
-    Part *      part;
+    vector<Part*> _parts;
+    vector<Layout*> _layouts;
+    
+    CCSprite *_preview;
+    
+    Layout * _delayPanel;
+    
+    CCPoint _posDelayPanel;
 
     void import();
+    
+    bool        _bAdd = true;
+    UILabel *   _labelNumber;
+    float       _fAdjust = 0.01;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

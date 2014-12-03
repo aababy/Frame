@@ -10,11 +10,15 @@
 
 #define CHECK_BOX   394
 
-Part::Part(CCSprite * preview, UIListView *list)
+Part::Part(CCSprite * preview)
 {
     m_preview = preview;
+}
+
+void Part::setBindingList(UIListView *list, UILabel *label)
+{
     _list = list;
-    _fDelay = 0.05f;
+    _label = label;
 }
 
 void Part::import(string path)
@@ -78,9 +82,8 @@ void Part::import(string path)
 }
 
 
-void Part::preview(float delay)
+void Part::preview()
 {
-    _fDelay = delay;
     m_vFrameUsed.clear();
 
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
@@ -97,12 +100,20 @@ void Part::preview(float delay)
         }
     }
 
+    //获取delay的值
+    float delay = atof(_label->getStringValue());
+    xScheduler->scheduleSelector(schedule_selector(Part::startPreview), this, 0, 0, delay, false);
+}
+
+
+void Part::startPreview(float delta)
+{
     m_iCurFrameIndex = 0;
 	m_fAccumulate = 0;
     CCSpriteFrame* frame = xSpriteFC->spriteFrameByName(m_vFrameUsed.at(m_iCurFrameIndex).sFrameName.c_str());
     m_preview->setDisplayFrame(frame);
     m_preview->setVisible(true);
-
+    
     m_bRunning = true;
     xScheduler->unscheduleUpdateForTarget(this);
     xScheduler->scheduleUpdateForTarget(this, 0, false);

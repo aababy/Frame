@@ -11,16 +11,19 @@
 
 #include "IncludeForHeader.h"
 
-class Part : public CCObject
+class Part : public CCNode
 {
 public:
-    Part(CCSprite * preview, UIListView *list);
-    void preview(float delay);
+    Part(CCSprite * preview);
+    void preview();
     void deleteFrames();
 
     void import(string path);
     vector<MyFrame> m_vFrameOriginal;
     vector<MyFrame> m_vFrameUsed;
+    
+    void setBindingList(UIListView *list, UILabel *label);
+    void startPreview(float delta);
 
 private:
     void texturePacker();
@@ -39,8 +42,8 @@ private:
 
     string  _path;
     UIListView *_list;
+    UILabel *_label;
 
-    float   _fDelay;
 };
 
 #endif /* defined(__Frame__Part__) */
