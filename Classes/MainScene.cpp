@@ -243,6 +243,17 @@ void MainScene::import()
     if(strcmp(input->getText(), "") == 0)
     {
         return;
+        
+        //以下为测试代码
+        UIListView * listPart = UIListView::create(30, 100, listviewupdateselector(MainScene::updateCellAtIndex));
+        listPart->setSize(CCSizeMake(1920, SIDE_LEN));
+        listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
+        listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
+        listPart->setItemsMargin(20);
+        listPart->setTarget(this);
+        listPart->requestInitialization();
+        
+        _listTotal->pushBackCustomItem(listPart);
     }
     
     //获取part
@@ -333,4 +344,30 @@ void MainScene::import()
     
     //设置binding的List
     part->setBindingList(listPart, label);
+}
+
+
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes)
+{
+    Layout * layout = Layout::create();
+    layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+    layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
+    layout->setBackGroundColor(ccBLACK);
+    layout->setSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+    layout->setTouchEnabled(true);
+    layout->setTag(LAYOUT);
+    layout->addTouchEventListener(this, toucheventselector(MainScene::touchEvent));
+    
+    
+    UILabel * label = UILabel::create();
+    label->setFontSize(40);
+    
+    int index = indexes.x + indexes.y;
+    CCLOG("%d", index);
+    
+    label->setText(any2string(index));
+    label->setPosition(ccp(SIDE_LEN / 2, SIDE_LEN / 2));
+    layout->addChild(label);
+    
+    ((UIListView*)list)->updateCustomItem(layout);
 }

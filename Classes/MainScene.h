@@ -43,6 +43,8 @@ public:
     virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
     virtual void editBoxReturn(CCEditBox* editBox);
     
+    void updateCellAtIndex(CCObject* list, const CCPoint &indexes);
+    
 protected:
     ~MainScene();
 
