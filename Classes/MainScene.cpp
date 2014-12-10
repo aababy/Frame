@@ -279,52 +279,13 @@ void MainScene::import()
 
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     
-    UIListView * listPart = UIListView::create();
+    UIListView * listPart = UIListView::create(20, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
     listPart->setSize(CCSizeMake(1920, SIDE_LEN));
     listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
     listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
-    
-    for(int i = 0; i < vFrameName.size(); i++)
-    {
-        Layout * layout = Layout::create();
-        layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
-        layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
-        layout->setBackGroundColor(ccBLACK);
-        layout->setSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
-        layout->setTouchEnabled(true);
-        layout->setTag(LAYOUT);
-        layout->addTouchEventListener(this, toucheventselector(MainScene::touchEvent));
-
-        UIImageView * image = UIImageView::create();
-        image->loadTexture(vFrameName.at(i).sFrameName.c_str(), UI_TEX_TYPE_PLIST);
-        image->setPosition(ccp(SIDE_LEN/2, SIDE_LEN/2));
-        image->setScale(0.5);
-
-        UICheckBox * checkOne = (UICheckBox*)check->clone();
-        checkOne->setVisible(true);
-        checkOne->setScale(0.5);
-        checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
-        checkOne->setSelectedState(!part->m_vFrameOriginal.at(i).bDeleted);
-
-        Layout * layout_delay = (Layout*)_delayPanel->clone();
-        layout_delay->setVisible(true);
-        //layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, -1 * layout_delay->getContentSize().height));
-        layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, 0));
-
-        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
-        label->setText(any2string(part->m_vFrameOriginal.at(i).fDelay));
-
-        initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
-        initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
-
-        
-        layout->addChild(image);
-        layout->addChild(checkOne);
-        layout->addChild(layout_delay, 10);
-        listPart->pushBackCustomItem(layout);
-        
-        listPart->setTouchEnabled(false);
-    }
+    listPart->setTarget(this);
+    listPart->setUserData((void*)part);
+    listPart->requestInitialization();
     
     _listTotal->pushBackCustomItem(listPart);
     
@@ -347,8 +308,12 @@ void MainScene::import()
 }
 
 
-void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes)
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *userData)
 {
+    UIListView* listview = (UIListView*)list;
+    Part *part = (Part*)listview->getUserData();
+    vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
+    
     Layout * layout = Layout::create();
     layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
     layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
@@ -358,16 +323,31 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes)
     layout->setTag(LAYOUT);
     layout->addTouchEventListener(this, toucheventselector(MainScene::touchEvent));
     
+    UIImageView * image = UIImageView::create();
+    image->loadTexture(vFrameName.at(indexes.x).sFrameName.c_str(), UI_TEX_TYPE_PLIST);
+    image->setPosition(ccp(SIDE_LEN/2, SIDE_LEN/2));
+    image->setScale(0.5);
     
-    UILabel * label = UILabel::create();
-    label->setFontSize(40);
+    UICheckBox * checkOne = (UICheckBox*)check->clone();
+    checkOne->setVisible(true);
+    checkOne->setScale(0.5);
+    checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
+    checkOne->setSelectedState(!part->m_vFrameOriginal.at(indexes.x).bDeleted);
     
-    int index = indexes.x + indexes.y;
-    CCLOG("%d", index);
+    Layout * layout_delay = (Layout*)_delayPanel->clone();
+    layout_delay->setVisible(true);
+    layout_delay->setPosition(ccp(SIDE_LEN/2 - layout_delay->getContentSize().width / 2, 0));
     
-    label->setText(any2string(index));
-    label->setPosition(ccp(SIDE_LEN / 2, SIDE_LEN / 2));
-    layout->addChild(label);
+    UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
+    label->setText(any2string(part->m_vFrameOriginal.at(indexes.x).fDelay));
+    
+    initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
+    initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
+    
+    
+    layout->addChild(image);
+    layout->addChild(checkOne);
+    layout->addChild(layout_delay, 10);
     
     ((UIListView*)list)->updateCustomItem(layout);
 }
