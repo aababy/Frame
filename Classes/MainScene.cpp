@@ -279,7 +279,7 @@ void MainScene::import()
 
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     
-    UIListView * listPart = UIListView::create(20, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
+    UIListView * listPart = UIListView::create(90, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
     listPart->setSize(CCSizeMake(1920, SIDE_LEN));
     listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
     listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
