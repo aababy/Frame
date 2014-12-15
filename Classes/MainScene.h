@@ -72,6 +72,7 @@ protected:
     UILabel *   _labelNumber;
     float       _fAdjust = 0.01;
     UIListView* _listPart;
+    int         _count = 7;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

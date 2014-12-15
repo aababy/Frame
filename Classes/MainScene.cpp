@@ -157,6 +157,8 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             break;
         case BTN_PREVIEW:
         {
+            _listPart->changeTotalCount(_count++);
+
             for (int i = 0; i < _parts.size(); i++) {
                 _parts.at(i)->preview();
             }
@@ -352,7 +354,7 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const 
         UILabel * label = (UILabel*)UILabel::create();
 
         label->setText(any2string(index));
-        label->setFontSize(42);
+        label->setFontSize(60);
         label->setPosition(ccp(layout->getContentSize().width/2, layout->getContentSize().height/2));
         layout->addChild(label);
         layout->setTag(LAYOUT_TEST);
