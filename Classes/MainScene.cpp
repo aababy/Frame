@@ -271,6 +271,8 @@ void MainScene::import()
 {
     if(strcmp(input->getText(), "") == 0)
     {
+        return;
+
         //以下为测试代码
         UIListView * listPart = UIListView::create(30, 7, listviewupdateselector(MainScene::updateCellAtIndex));
         listPart->setSize(CCSizeMake(1920, SIDE_LEN));
@@ -309,7 +311,7 @@ void MainScene::import()
 
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     
-    UIListView * listPart = UIListView::create(20, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
+    UIListView * listPart = UIListView::create(vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
     listPart->setSize(CCSizeMake(1920, SIDE_LEN));
     listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
     listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
@@ -337,7 +339,7 @@ void MainScene::import()
     part->setBindingList(listPart, label);
 }
 
-#if 1
+#if 0
 void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &created, Widget *item)
 {
     int index = indexes.x + indexes.y;
