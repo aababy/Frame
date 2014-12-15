@@ -379,7 +379,7 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const 
         layout->setBackGroundColor(ccBLACK);
 }
 #else
-void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &selected, void *userData)
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &created, Widget *item)
 {
     UIListView* listview = (UIListView*)list;
     Part *part = (Part*)listview->getUserData();
