@@ -43,7 +43,7 @@ public:
     virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
     virtual void editBoxReturn(CCEditBox* editBox);
     
-    void updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *userData);
+    void updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &selected, void *userData);
     void onCheckBox(CCObject* sender, CheckBoxEventType type);
     
 protected:

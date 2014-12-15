@@ -329,7 +329,7 @@ void MainScene::import()
 }
 
 
-void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *userData)
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &selected, void *userData)
 {
     UIListView* listview = (UIListView*)list;
     Part *part = (Part*)listview->getUserData();
