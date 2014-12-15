@@ -16,7 +16,7 @@ enum UITag
     BTN_DEL = 410,
     BTN_UP = 412,
     BTN_DOWN = 413,
-
+    LAYOUT_TEST= 999,
 };
 
 
@@ -217,6 +217,12 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             
             break;
         }
+        case LAYOUT_TEST:
+        {
+            _listPart->requestUpdateView();
+
+            break;
+        }
         default:
         {
         }
@@ -263,18 +269,19 @@ void MainScene::import()
 {
     if(strcmp(input->getText(), "") == 0)
     {
-        return;
-        
         //以下为测试代码
-        UIListView * listPart = UIListView::create(30, 100, listviewupdateselector(MainScene::updateCellAtIndex));
+        UIListView * listPart = UIListView::create(30, 7, listviewupdateselector(MainScene::updateCellAtIndex));
         listPart->setSize(CCSizeMake(1920, SIDE_LEN));
         listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
         listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
         listPart->setItemsMargin(20);
         listPart->setTarget(this);
         listPart->requestInitialization();
-        
+        _listPart = listPart;
+
         _listTotal->pushBackCustomItem(listPart);
+
+        return;
     }
     
     //获取part
@@ -328,7 +335,46 @@ void MainScene::import()
     part->setBindingList(listPart, label);
 }
 
+#if 1
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &created, Widget *item)
+{
+    int index = indexes.x + indexes.y;
 
+    Layout * layout;
+
+    if(created)
+    {
+        layout = Layout::create();
+        layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+        layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
+        layout->setSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
+
+        UILabel * label = (UILabel*)UILabel::create();
+
+        label->setText(any2string(index));
+        label->setFontSize(42);
+        label->setPosition(ccp(layout->getContentSize().width/2, layout->getContentSize().height/2));
+        layout->addChild(label);
+        layout->setTag(LAYOUT_TEST);
+        layout->setTouchEnabled(true);
+        layout->addTouchEventListener(this, toucheventselector(MainScene::touchEvent));
+
+        ((UIListView*)list)->updateCustomItem(layout);
+    }
+    else
+    {
+        layout = (Layout *)item;
+    }
+
+
+    if(index == ((UIListView*)list)->getCurSelectedIndex())
+    {
+        layout->setBackGroundColor(ccGRAY);
+    }
+    else
+        layout->setBackGroundColor(ccBLACK);
+}
+#else
 void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &selected, void *userData)
 {
     UIListView* listview = (UIListView*)list;
@@ -377,3 +423,4 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const 
     
     ((UIListView*)list)->updateCustomItem(layout);
 }
+#endif
