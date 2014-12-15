@@ -88,13 +88,7 @@ void Part::preview()
 
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        Layout * layout = (Layout*) _list->getItem(i);
-        CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
-        UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
-        const char * text = label->getStringValue();
-        m_vFrameOriginal.at(i).fDelay = atof(text);
-
-        if(check->getSelectedState())
+        if(!m_vFrameOriginal.at(i).bDeleted)
         {
             m_vFrameUsed.push_back(m_vFrameOriginal.at(i));
         }
@@ -154,24 +148,20 @@ void Part::deleteFrames()
 {
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        Layout * layout = (Layout*) _list->getItem(i);
-        CheckBox * check = (UICheckBox*)UIHelper::seekWidgetByTag(layout, CHECK_BOX);
-
-        if(check->getSelectedState() == false)
+        if(m_vFrameOriginal.at(i).bDeleted)
         {
             string path = _path;
 
 			path.append(SEPARATOR);
             path.append(m_vFrameOriginal.at(i).sFrameName);
             deleteFile(path);
-            m_vFrameOriginal.at(i).bDeleted = true;
         }
     }
 
     m_vFrameUsed.clear();
     for(int i = 0; i < m_vFrameOriginal.size(); i++)
     {
-        if(m_vFrameOriginal.at(i).bDeleted == false)
+        if(!m_vFrameOriginal.at(i).bDeleted)
         {
             m_vFrameUsed.push_back(m_vFrameOriginal.at(i));
         }

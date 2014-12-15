@@ -44,6 +44,7 @@ public:
     virtual void editBoxReturn(CCEditBox* editBox);
     
     void updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *userData);
+    void onCheckBox(CCObject* sender, CheckBoxEventType type);
     
 protected:
     ~MainScene();

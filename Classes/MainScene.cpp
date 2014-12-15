@@ -178,6 +178,12 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             delay += 0.01f;
             label->setText(any2string(delay));
             
+            //改变数据
+            float *pDelay = (float *)label->getUserData();
+            if (pDelay) {
+                *pDelay = delay;
+            }
+            
             unschedule(schedule_selector(MainScene::add));
         }
             break;
@@ -190,6 +196,12 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             delay -= 0.01f;
             label->setText(any2string(delay));
             
+            //改变数据
+            float *pDelay = (float *)label->getUserData();
+            if (pDelay) {
+                *pDelay = delay;
+            }
+            
             unschedule(schedule_selector(MainScene::del));
         }
             break;
@@ -200,6 +212,9 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
             bool bCheck = !(check->getSelectedState());
             check->setSelectedState(bCheck);
             
+            bool * pDeleted = (bool *)check->getUserData();
+            *pDeleted = !check->getSelectedState();
+            
             break;
         }
         default:
@@ -207,6 +222,14 @@ void MainScene::touchEvent(CCObject *pSender, TouchEventType type)
         }
             break;
     }
+}
+
+void MainScene::onCheckBox(CCObject* sender, CheckBoxEventType type)
+{
+    //获得数据
+    UICheckBox *check = (UICheckBox*)sender;
+    bool * pDeleted = (bool *)check->getUserData();
+    *pDeleted = !check->getSelectedState();
 }
 
 void MainScene::editBoxEditingDidBegin(CCEditBox* editBox)
@@ -225,9 +248,7 @@ void MainScene::editBoxTextChanged(CCEditBox* editBox, const std::string& text)
         {
             for(int i = 0; i < _parts.at(j)->m_vFrameOriginal.size(); i++)
             {
-                Layout * layout = (Layout*) _parts.at(j)->_list->getItem(i);
-                UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout, 408);
-                label->setText(text);
+                _parts.at(j)->m_vFrameOriginal.at(i).fDelay = atof(text.c_str());
             }
         }
     }
@@ -279,7 +300,7 @@ void MainScene::import()
 
     vector<MyFrame> &vFrameName = part->m_vFrameOriginal;
     
-    UIListView * listPart = UIListView::create(90, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
+    UIListView * listPart = UIListView::create(20, vFrameName.size(), listviewupdateselector(MainScene::updateCellAtIndex));
     listPart->setSize(CCSizeMake(1920, SIDE_LEN));
     listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
     listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
@@ -333,6 +354,9 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *
     checkOne->setScale(0.5);
     checkOne->setPosition(ccp(SIDE_LEN - 20, SIDE_LEN - 20));
     checkOne->setSelectedState(!part->m_vFrameOriginal.at(indexes.x).bDeleted);
+    checkOne->addEventListenerCheckBox(this, checkboxselectedeventselector(MainScene::onCheckBox));
+    bool * pDeleted = &(part->m_vFrameOriginal.at(indexes.x).bDeleted);
+    checkOne->setUserData((void*)pDeleted);
     
     Layout * layout_delay = (Layout*)_delayPanel->clone();
     layout_delay->setVisible(true);
@@ -340,6 +364,8 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, void *
     
     UILabel * label = (UILabel*)UIHelper::seekWidgetByTag(layout_delay, LABEL_DELAY);
     label->setText(any2string(part->m_vFrameOriginal.at(indexes.x).fDelay));
+    float * pDelay = &(part->m_vFrameOriginal.at(indexes.x).fDelay);
+    label->setUserData((void*)pDelay);
     
     initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
     initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
