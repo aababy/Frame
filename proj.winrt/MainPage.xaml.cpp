@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 USING_NS_CC;
 
-using namespace Frame;
+using namespace Frame1;
 
 using namespace Platform;
 using namespace Windows::Foundation;
@@ -52,7 +52,7 @@ MainPage::MainPage()
 
     CCEGLView* eglView = new CCEGLView();
 	eglView->Create(Window::Current->CoreWindow, SwapChainPanel);
-    eglView->setViewName("Frame");
+    eglView->setViewName("Frame1");
     CCApplication::sharedApplication()->run();
 }
 

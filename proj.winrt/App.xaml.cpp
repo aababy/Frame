@@ -30,7 +30,7 @@ THE SOFTWARE.
 #include "pch.h"
 #include "MainPage.xaml.h"
 
-using namespace Frame;
+using namespace Frame1;
 
 using namespace Platform;
 using namespace Windows::ApplicationModel;

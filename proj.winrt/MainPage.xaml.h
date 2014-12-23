@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "MainPage.g.h"
 #include "../Classes/AppDelegate.h"
 
-namespace Frame
+namespace Frame1
 {
 	/// <summary>
 	/// A DirectX page that can be used on its own.  Note that it may not be used within a Frame.

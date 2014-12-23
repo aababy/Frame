@@ -32,7 +32,7 @@ THE SOFTWARE.
 #include "App.g.h"
 #include "MainPage.xaml.h"
 
-namespace Frame
+namespace Frame1
 {
 	/// <summary>
 	/// Provides application-specific behavior to supplement the default Application class.

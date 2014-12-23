@@ -10,11 +10,11 @@
 
     <!-- A universally unique application identifier. Must be unique across all BlackBerry applications.
          Using a reverse DNS-style name as the id is recommended. (Eg. com.example.ExampleApplication.) Required. -->
-    <id>com.digiarty.luoxp</id>
+    <id>com.cocos2dx.org</id>
 
     <!-- The name that is displayed in the BlackBerry Tablet OS application installer. 
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <name>Frame</name>
+    <name>Frame1</name>
     
     <!-- A string value of the format <0-999>.<0-999>.<0-999> that represents application version which can be used to check for application upgrade. 
          Values can also be 1-part or 2-part. It is not necessary to have a 3-part value.
@@ -30,7 +30,7 @@
 
     <!-- Description, displayed in the BlackBerry application installer.
          May have multiple values for each language. See samples or xsd schema file. Optional. -->
-    <description>The Frame Game</description>
+    <description>The Frame1 Game</description>
 
     <!-- Copyright information. Optional. -->
     <!-- <copyright></copyright> -->
@@ -56,37 +56,37 @@
     <configuration id="com.qnx.qcc.configuration.exe.debug.2142540956" name="Device-Debug">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Device-Debug/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Device-Debug/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.release.1185536621" name="Device-Release">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Device-Release/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Device-Release/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.1563929245" name="Device-Profile">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Device-Profile/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Device-Profile/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.coverage.2091050949" name="Device-Coverage">
        <platformArchitecture>armle-v7</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Device-Coverage/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Device-Coverage/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.debug.538064218" name="Simulator">
        <platformArchitecture>x86</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Simulator/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Simulator/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.808507225" name="Simulator-Profile">
        <platformArchitecture>x86</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Simulator-Profile/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Simulator-Profile/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     <configuration id="com.qnx.qcc.configuration.exe.profile.coverage.78763272" name="Simulator-Coverage">
        <platformArchitecture>x86</platformArchitecture>
        <asset path="${workspace_loc:/CocosDenshion}/${ConfigName}/libCocosDenshion.so" type="Qnx/Elf">lib/libCocosDenshion.so</asset>
-       <asset path="Simulator-Coverage/Frame" entry="true" type="Qnx/Elf">Frame</asset>
+       <asset path="Simulator-Coverage/Frame1" entry="true" type="Qnx/Elf">Frame1</asset>
     </configuration>
     
     <!--  The icon for the application.

@@ -1,4 +1,4 @@
-EXECUTABLE = Frame
+EXECUTABLE = Frame1
 
 INCLUDES = -I.. -I../Classes
 

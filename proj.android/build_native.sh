@@ -1,4 +1,4 @@
-APPNAME="Frame"
+APPNAME="Frame1"
 
 # options
 

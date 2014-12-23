@@ -417,6 +417,16 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const 
     float * pDelay = &(part->m_vFrameOriginal.at(indexes.x).fDelay);
     label->setUserData((void*)pDelay);
     
+    UILabel * labelName = (UILabel*)UILabel::create();
+    
+    int pos = part->m_vFrameOriginal.at(indexes.x).sFrameName.find(".");
+    string name = part->m_vFrameOriginal.at(indexes.x).sFrameName.substr(0, pos);
+    
+    labelName->setText(name);
+    labelName->setFontSize(14);
+    labelName->setPosition(ccp(layout->getContentSize().width/2 - 8, layout->getContentSize().height - 14));
+    layout->addChild(labelName);
+    
     initButton(BTN_ADD, layout_delay, this, toucheventselector(MainScene::touchEvent));
     initButton(BTN_DEL, layout_delay, this, toucheventselector(MainScene::touchEvent));
     
