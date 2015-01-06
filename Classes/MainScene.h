@@ -43,7 +43,7 @@ public:
     virtual void editBoxTextChanged(CCEditBox* editBox, const std::string& text);
     virtual void editBoxReturn(CCEditBox* editBox);
     
-    void updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &created, Widget *item);
+    void updateCellAtIndex(CCObject* list, const CCPoint &indexes, Widget *item);
     void onCheckBox(CCObject* sender, CheckBoxEventType type);
     
 protected:
@@ -73,6 +73,8 @@ protected:
     float       _fAdjust = 0.01;
     UIListView* _listPart;
     int         _count = 7;
+    bool        _inserted = false;
+    int         _insertIndex;
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -271,10 +271,10 @@ void MainScene::import()
 {
     if(strcmp(input->getText(), "") == 0)
     {
-        return;
+        //return;
 
         //以下为测试代码
-        UIListView * listPart = UIListView::create(30, 7, listviewupdateselector(MainScene::updateCellAtIndex));
+        UIListView * listPart = UIListView::create(30, 20, listviewupdateselector(MainScene::updateCellAtIndex));
         listPart->setSize(CCSizeMake(1920, SIDE_LEN));
         listPart->setDirection(SCROLLVIEW_DIR_HORIZONTAL);
         listPart->setGravity(LISTVIEW_GRAVITY_CENTER_VERTICAL);
@@ -339,15 +339,17 @@ void MainScene::import()
     part->setBindingList(listPart, label);
 }
 
-#if 0
-void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const bool &created, Widget *item)
+#if 1
+void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, Widget *item)
 {
     int index = indexes.x + indexes.y;
 
     Layout * layout;
 
-    if(created)
+    if(item == NULL)
     {
+        CCLOG("update %d", index);
+        
         layout = Layout::create();
         layout->setContentSize(CCSizeMake(SIDE_LEN, SIDE_LEN));
         layout->setBackGroundColorType(LAYOUT_COLOR_SOLID);
@@ -355,7 +357,25 @@ void MainScene::updateCellAtIndex(CCObject* list, const CCPoint &indexes, const 
 
         UILabel * label = (UILabel*)UILabel::create();
 
-        label->setText(any2string(index));
+        if (_inserted)
+        {
+            if (index < _insertIndex) {
+                label->setText(any2string(index));
+            }
+            else if (index == _insertIndex)
+            {
+                label->setText("insert");
+            }
+            else
+            {
+                label->setText(any2string(index - 1));
+            }
+        }
+        else
+        {
+            label->setText(any2string(index));
+        }
+
         label->setFontSize(60);
         label->setPosition(ccp(layout->getContentSize().width/2, layout->getContentSize().height/2));
         layout->addChild(label);
