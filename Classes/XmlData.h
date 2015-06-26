@@ -4,7 +4,7 @@
 //
 //  Created by Ringo_D on 12-9-25.
 //
-//  2
+//  1
 
 #ifndef __FishingJoy__XmlData__
 #define __FishingJoy__XmlData__
